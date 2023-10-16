@@ -11,8 +11,8 @@
 function capt = getCapt (captSize, leftSpear, rightSpear, jab)
   %config variables for captain
   legMult = 3;
-  armLength = captSize*3;
-  spearMult = 3;
+  armLength = captSize*1.5;
+  spearMult = 5;
   jabLengthLong = 2;
 
 
