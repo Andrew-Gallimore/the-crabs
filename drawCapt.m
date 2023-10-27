@@ -18,10 +18,9 @@ function captainGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
   T = getTranslation(xCapt, yCapt);
   capt = T*rotatedCaptain;
 
-  % TODO : Rotate captain from zero heading to heading thetaCapt
-
   [rows, columns] = size(capt);
 
+  % Extracting points
   pt1=capt( : , 1);
   pt2=capt( : , 2);
   pt3=capt( : , 3);

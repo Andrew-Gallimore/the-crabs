@@ -11,18 +11,49 @@ function crabs ()
   thetaCapt = -pi/2;
   sizeCapt = 50;
 
-  % Draw the captain and initialize graphics handles
+  % Draw the captain 1st time
   captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
 
   % Initial value for smoothing motion
   rotationFactor = 1;
   rotationDirection = 0;
 
+
+
+  % Initialize turtle location, heading and size
+  xTurt = 1000;
+  yTurt = 500;
+  thetaTurt = -pi;
+  sizeTurt = 50;
+
+  % Drawing turtle 1st time
+  turtleGraphics = drawTurtle(xTurt, yTurt, thetaTurt, sizeTurt);
+
+
+
+
   while(1)
+    fflush(stdout);
     cmd = kbhit(1);
     if(cmd == "Q")
       break
     endif
+
+
+    %remove current turtle grahpics
+    for(i = 1:length(turtleGraphics))
+      delete(turtleGraphics(i));
+    endfor
+
+    %Getting new captain position & heading
+    %[xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, cmd, rotationDirection, rotationFactor);
+
+    % Drawing turtle
+    turtleGraphics = drawTurtle(xTurt, yTurt, thetaTurt, sizeTurt);
+
+
+
+
 
     % Custom logic for rotation, so that its smooth
     if(cmd == "a" || cmd == "d")
@@ -54,10 +85,9 @@ function crabs ()
 
 
 
-
     %remove current drawn captain
     for(i = 1:length(captGraphics))
-      set(captGraphics(i), 'visible', 'off');
+      delete(captGraphics(i));
     endfor
 
     %Getting new captain position & heading
@@ -66,7 +96,7 @@ function crabs ()
     %place new captain
     captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
 
-    pause(0.005);
+    pause(0.01);
 
   endwhile
 endfunction
