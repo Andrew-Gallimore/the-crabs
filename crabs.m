@@ -11,8 +11,15 @@ function crabs ()
   thetaCapt = -pi/2;
   sizeCapt = 50;
 
-  % Draw the captain 1st time
+  % initialize penguin
+  xPeng = 1000;
+  yPeng = 1000;
+  thetaPeng = pi/2;
+  sizePeng = 25;
+
+  % Draw the captain and initialize graphics handles
   captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
+  pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
 
   % Initial value for smoothing motion
   rotationFactor = 1;
@@ -96,7 +103,11 @@ function crabs ()
     %place new captain
     captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
 
-    pause(0.01);
+
+    % --------- draws the penguin -------- THIS PIECE TO BE EDITED LATER  -------------
+    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
+
+    pause(0.005);
 
   endwhile
 endfunction
