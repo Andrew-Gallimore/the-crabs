@@ -17,15 +17,38 @@ function crabs ()
   thetaPeng = pi/2;
   sizePeng = 25;
 
+  % Initialize crab location, heading and size
+  xCrab = 1000;
+  yCrab = 1200;
+  thetaCrab = 2*pi;
+  sizeCrab = 25;
+
   % Draw the captain and initialize graphics handles
   captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
   pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
+  crabGraphics = drawCrab(xCrab, yCrab, thetaCrab, sizeCrab);
 
   % Initial value for smoothing motion
   rotationFactor = 1;
   rotationDirection = 0;
 
   while(1)
+
+
+
+    % THis draws the penguin as it moves across the screen
+    % erases penguin
+    for p=1:length(pengGraphics)
+      delete(pengGraphics(p));
+    endfor
+
+     %move Penguin
+    [xPeng,yPeng,thetaPeng] = movePeng(xPeng, yPeng, thetaPeng, sizePeng, mapHeight,mapWidth);
+
+    % draws Penguin
+    pengGraphics = drawPeng(xPeng,yPeng,thetaPeng,sizePeng);
+
+
     cmd = kbhit(1);
     if(cmd == "Q")
       break
@@ -60,6 +83,20 @@ function crabs ()
     endif
 
 
+    % THIS MAKE THE CRAB MOVE ------- TO BE EDITED ---------
+    if (cmd == "i" || cmd == "j" || cmd == "k" || cmd == "l" || cmd ==",") % respond crab moved
+      %erase old crab
+      for i=1:length(crabGraphics)
+      delete(crabGraphics(i));
+      endfor
+
+      %move crab
+      [xCrab,yCrab,thetaCrab] = moveCrab(cmd,xCrab,yCrab,thetaCrab,sizeCrab, mapHeight, mapWidth);
+
+      %draw new crab
+      crabGraphics = drawCrab(xCrab,yCrab,thetaCrab,sizeCrab);
+     endif
+
 
 
     %remove current drawn captain
@@ -73,9 +110,6 @@ function crabs ()
     %place new captain
     captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
 
-
-    % --------- draws the penguin -------- THIS PIECE TO BE EDITED LATER  -------------
-    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
 
     pause(0.005);
 

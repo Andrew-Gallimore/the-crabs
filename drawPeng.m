@@ -10,6 +10,9 @@ function P = drawPeng (xPeng, yPeng, thetaPeng, sizePeng)
 
   % shift translation of penguin
 
+  T = getTranslation(xPeng,yPeng);
+  penguin = T * penguin;
+
   %------------------------%
 
 
@@ -30,6 +33,14 @@ function P = drawPeng (xPeng, yPeng, thetaPeng, sizePeng)
   pt14 = penguin(:, 14);
   pt15 = penguin(:, 15);
   pt16 = penguin(:, 16);
+  pt17 = penguin(:, 17);
+  pt18 = penguin(:, 18);
+  pt19 = penguin(:, 19);
+  pt20 = penguin(:, 20);
+  pt21 = penguin(:, 21);
+  pt22 = penguin(:, 22);
+  pt23 = penguin(:, 23);
+
 
 
   % draw penguin head
@@ -51,9 +62,18 @@ function P = drawPeng (xPeng, yPeng, thetaPeng, sizePeng)
   P(10) = drawLine(pt12, pt13, "b");
   P(11) = drawLine(pt13, pt14, "b");
 
-  %draw left arm
+  % draw left arm
   P(12) = drawLine(pt7, pt8, "b");
   P(13) = drawLine(pt15, pt16, "b");
+
+  % draw beak
+  P(14) = drawLine(pt17, pt18, "y");
+  P(15) = drawLine(pt18, pt19, "y");
+  P(16) = drawLine(pt19, pt17, "y");
+
+  % draw eyes
+  P(17) = drawLine(pt20, pt21, "k");
+  P(18) = drawLine(pt22, pt23, "k");
 
 
   endfunction
