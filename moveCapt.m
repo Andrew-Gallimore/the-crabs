@@ -1,7 +1,7 @@
 ## Author: HP <HP@ANDREWS-LAPTOP>
 ## Created: 2023-10-02
 
-function [xCapt, yCapt, thetaCapt] = moveCapt (x, y, theta, cmd, rotationDirection, rotationFactor)
+function [xCapt, yCapt, thetaCapt] = moveCapt (x, y, theta, moveForward, rotationDirection, rotationFactor)
   % Variables for movement amounts
   dTheta = pi/6;
   dStep = 50;
@@ -11,7 +11,7 @@ function [xCapt, yCapt, thetaCapt] = moveCapt (x, y, theta, cmd, rotationDirecti
   yCapt = y;
   thetaCapt = theta;
 
-  if(cmd == "w")
+  if(moveForward == 1)
     %move captain forward
     xCapt = x + cos(theta)*dStep;
     yCapt = y + sin(theta)*dStep;
