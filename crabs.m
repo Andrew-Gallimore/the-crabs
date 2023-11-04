@@ -2,28 +2,35 @@ function crabs ()
   % Crabs is a kids computer game where a fisherman, called the captain,
   % hunts for a very clever and powerful crab.
 
+
   % Draw the game map and initialize map dimensions.
   [mapHeight , mapWidth] = drawMap( "BGImage.png" );
 
+
   % Initialize captain location, heading and size
-  xCapt = 1500;
-  yCapt = 900;
-  thetaCapt = -pi/2;
+  xCapt = ones(1,2) * 1500;
+  yCapt = ones(1,2) * 900;
+  thetaCapt = ones(1, 2) * -pi/2;
   sizeCapt = 50;
 
-  % initialize penguin
+  rotationFactor = [1; 1];
+  rotationDirection = [0; 0];
+  moveForward = ["",""];
+
+  % Draw the captain
+  for k=1:2
+    captGraphics(:,k) = drawCapt(xCapt(k), yCapt(k), thetaCapt(k), sizeCapt);
+  endfor
+
+
+
+  % Initialize penguin
   xPeng = 1000;
   yPeng = 1000;
   thetaPeng = pi/2;
   sizePeng = 25;
-
-  % Draw the captain and initialize graphics handles
-  captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
+  % Draw the penguin
   pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
-
-  % Initial value for smoothing motion
-  rotationFactor = 1;
-  rotationDirection = 0;
 
 
 
@@ -31,9 +38,8 @@ function crabs ()
   xTurt = 1000;
   yTurt = 500;
   thetaTurt = -pi;
-  sizeTurt = 50;
-
-  % Drawing turtle 1st time
+  sizeTurt = 35;
+  % Drawing the turtle
   turtleGraphics = drawTurtle(xTurt, yTurt, thetaTurt, sizeTurt);
 
 
@@ -45,6 +51,7 @@ function crabs ()
     if(cmd == "Q")
       break
     endif
+
 
 
     %remove current turtle grahpics
@@ -61,51 +68,36 @@ function crabs ()
 
 
 
-
-    % Custom logic for rotation, so that its smooth
-    if(cmd == "a" || cmd == "d")
-      % Setting direction
-      if(cmd == "a")
-        rotationDirection = -1;
-      endif
-      if(cmd == "d")
-        rotationDirection = 1;
-      endif
-
-      % Speeding up his rotation
-      if(rotationFactor + 0.3333 < 1)
-        rotationFactor = rotationFactor + 0.3333;
-      else
-        rotationFactor = 1;
-      endif
-    else
-      % Slowing down his rotation
-      if(rotationFactor - 0.3333 > 0)
-        rotationFactor = rotationFactor - 0.3333;
-      else
-        rotationFactor = 0;
-
-        % Setting direction
-        rotationDirection = 0;
-      endif
-    endif
-
-
-
-    %remove current drawn captain
-    for(i = 1:length(captGraphics))
-      delete(captGraphics(i));
+    %remove current penguin grahpics
+    for(i = 1:length(pengGraphics))
+      delete(pengGraphics(i));
     endfor
 
-    %Getting new captain position & heading
-    [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, cmd, rotationDirection, rotationFactor);
+    %Getting new penguin position & heading
+    %[xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, cmd, rotationDirection, rotationFactor);
 
-    %place new captain
-    captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
-
-
-    % --------- draws the penguin -------- THIS PIECE TO BE EDITED LATER  -------------
+    % Drawing penguin
     pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
+
+
+
+
+    for k=1:2
+       % Custom logic for getting movement/rotation of captain
+      [rotationFactor(k), rotationDirection(k), moveForward(k)] = calcMovement(k, cmd, rotationFactor(k), rotationDirection(k));
+
+      %remove current drawn captain
+      for(i = 1:length(captGraphics(:,k)))
+        delete(captGraphics(i,k));
+      endfor
+
+      %Getting new captain position & heading
+      [xCapt(k), yCapt(k), thetaCapt(k)] = moveCapt(xCapt(k), yCapt(k), thetaCapt(k), moveForward(k), rotationDirection(k), rotationFactor(k));
+
+      %place new captain
+      captGraphics(:,k) = drawCapt(xCapt(k), yCapt(k), thetaCapt(k), sizeCapt);
+    endfor
+
 
     pause(0.005);
 
