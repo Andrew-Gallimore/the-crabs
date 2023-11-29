@@ -1,18 +1,11 @@
 ## Author: HP <HP@ANDREWS-LAPTOP>
 ## Created: 2023-11-03
 
-function [rotationFactor, rotationDirection, moveForward] = calcMovement(playerIndex, cmd, rFactor, rDirection)
-
-  % Changing the inputs it looks for depeding on playerIndex supplied
-  if(playerIndex == 1)
-    Forward = "w";
-    Left = "a";
-    Right = "d";
-  elseif(playerIndex == 2)
-    Forward = "i";
-    Left = "j";
-    Right = "l";
-  endif
+function [rotationFactor, rotationDirection, moveForward] = calcMovement(cmd, rFactor, rDirection)
+  % Defining the movement keys
+  Forward = "w";
+  Left = "a";
+  Right = "d";
 
   % ROTATION LOGIC
   if(cmd == Left || cmd == Right)

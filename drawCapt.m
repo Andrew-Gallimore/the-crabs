@@ -1,12 +1,7 @@
-## Author: HP <HP@ANDREWS-LAPTOP>
+## Author: Andrew
 ## Created: 2023-09-01
 
 % Gets, transforms, plots, and Returns the full captain
-% @param  xCapt     {number}
-% @param  yCapt     {number}
-% @param  thetaCapt {number}
-% @param  sizeCapt  {number}
-
 function captainGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
   capt = getCapt(sizeCapt, true, false, 0);
 
