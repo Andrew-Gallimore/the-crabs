@@ -87,8 +87,6 @@ function crabs ()
     % Custom logic for getting movement/rotation of captain
     [rotationFactor, rotationDirection, moveForward] = calcMovement(cmd, rotationFactor, rotationDirection);
 
-<<<<<<< Updated upstream
-=======
     %remove current drawn captain
     for(i = 1:length(captGraphics))
       delete(captGraphics(i));
@@ -103,6 +101,5 @@ function crabs ()
 
     pause(0.005);
 
->>>>>>> Stashed changes
   endwhile
 endfunction
