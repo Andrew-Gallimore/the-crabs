@@ -28,7 +28,7 @@ function crabs ()
 
   xCrab = rand(1, numOfCrabs) * mapWidth;
   yCrab = rand(1, numOfCrabs) * mapHeight*(1 - amountOfScreen) + (mapHeight * amountOfScreen);
-  thetaCrab = ones(1,numOfCrabs) * 2*pi;
+  thetaCrab = (rand(1,numOfCrabs) - 0.5) * pi/2;
   LRCrab = round(rand(1, numOfCrabs));
   stateCrab = ones(1, numOfCrabs);
   sizeCrab = 25;
@@ -72,7 +72,8 @@ function crabs ()
 
         if(stateCrab(c) == 1)
           % Move crab(s) left and right
-          [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), mapHeight, mapWidth, sizeCrab);
+          limitedHight = mapHeight*(1 - amountOfScreen)
+          [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), limitedHight, mapHeight, mapWidth, sizeCrab);
         elseif(stateCrab(c) == 2)
           % Put crab at tip of net
           % TODO: put crab at tip of net

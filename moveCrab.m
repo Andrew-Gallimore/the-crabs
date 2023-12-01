@@ -1,7 +1,7 @@
 ## Authors: Erika, Andrew
 ## Created: 2023-10-13
 
-function [xCrab,yCrab,thetaCrab,newDirection] = moveCrab(direction,x,y,theta,height,width,size)
+function [xCrab,yCrab,thetaCrab,newDirection] = moveCrab(direction, x, y, theta, limitedHeight, height, width, size)
 
   % Movement/Rotation Amounts
   dStep = 50;
@@ -23,24 +23,25 @@ function [xCrab,yCrab,thetaCrab,newDirection] = moveCrab(direction,x,y,theta,hei
     yTemp= y + sin(theta)*dStep;
   endif
 
-  if(isOnMap(xTemp, yTemp, width, height, size))
+  % Check if its hitting any edge, add new theta
+  if(isOnMap(xTemp, height - yTemp, width, limitedHeight, size))
     % Apply the movement
     xCrab = xTemp;
     yCrab = yTemp;
   else
+    if(theta < 0)
+      thetaCrab = rand() * pi/4;
+    else
+      thetaCrab = (rand() - 1) * pi/4;
+    endif
+  endif
+
+  % Check if its hitting side, change direction
+  if(isOnMap(xTemp, limitedHeight/2, width, limitedHeight, size))
+    %DO NOTHING HERE, already handled above
+  else
     % Flip direction, and don't move at all
     newDirection = 1 - direction;
   endif
-
-  % TODO: Add rotation logic, and boundary logic so they rotate/bounce of the smaller boundary at bottom of screen
-
-  ##% ROTATIONS
-  ##if(cmd == "u")
-  ##  %rotate the captain left
-  ##  thetaCrab = theta - dTheta;
-  ##elseif(cmd == "o")
-  ##  %rotate the captain right
-  ##  thetaCrab = theta + dTheta;
-  ##endif
 
 endfunction
