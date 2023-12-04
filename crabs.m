@@ -6,9 +6,9 @@ function crabs ()
   [mapHeight , mapWidth] = drawMap( "BGImage.png" );
 
   % Initialize captain location, heading and size
-  xCapt = ones(1,2) * 1500;
-  yCapt = ones(1,2) * 900;
-  thetaCapt = ones(1, 2) * -pi/2;
+  xCapt = 1500;
+  yCapt = 900;
+  thetaCapt = -pi/2;
   sizeCapt = 50;
 
   rotationFactor = [1; 1];
@@ -22,20 +22,26 @@ function crabs ()
   thetaPeng = pi/2;
   sizePeng = 25;
 
-  % Initialize crab
-  xCrab = 1000;
-  yCrab = 1200;
-  thetaCrab = 2*pi;
+  % Initialize crab(s)
+  numOfCrabs = 2;
+  amountOfScreen = 0.75;
+
+  xCrab = rand(1, numOfCrabs) * mapWidth;
+  yCrab = rand(1, numOfCrabs) * mapHeight*(1 - amountOfScreen) + (mapHeight * amountOfScreen);
+  thetaCrab = (rand(1,numOfCrabs) - 0.5) * pi/2;
+  LRCrab = round(rand(1, numOfCrabs));
+  stateCrab = ones(1, numOfCrabs);
   sizeCrab = 25;
 
 
   % Draw the captain and initialize graphics handles
-  for k=1:2
-    captGraphics(:,k) = drawCapt(xCapt(k), yCapt(k), thetaCapt(k), sizeCapt);
+  captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
+  for c=1:numOfCrabs
+    crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
   endfor
   pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
-  crabGraphics = drawCrab(xCrab, yCrab, thetaCrab, sizeCrab);
 
+  commandwindow();
 
   while(1)
     cmd = kbhit(1);
@@ -57,38 +63,41 @@ function crabs ()
 
 
 
+    for c=1:numOfCrabs
+      if(stateCrab(c) == 1 || stateCrab(c) == 2)
+        %erase old crab
+        for i=1:length(crabGraphics)
+          delete(crabGraphics(i, c));
+        endfor
 
-    % THIS MAKE THE CRAB MOVE ------- TO BE EDITED ---------
-    if (cmd == "i" || cmd == "j" || cmd == "k" || cmd == "l" || cmd ==",") % respond crab moved
-      %erase old crab
-      for i=1:length(crabGraphics)
-      delete(crabGraphics(i));
-      endfor
+        if(stateCrab(c) == 1)
+          % Move crab(s) left and right
+          limitedHight = mapHeight*(1 - amountOfScreen)
+          [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), limitedHight, mapHeight, mapWidth, sizeCrab);
+        elseif(stateCrab(c) == 2)
+          % Put crab at tip of net
+          % TODO: put crab at tip of net
+        endif
 
-      %move crab
-      [xCrab,yCrab,thetaCrab] = moveCrab(cmd,xCrab,yCrab,thetaCrab,sizeCrab, mapHeight, mapWidth);
-
-      %draw new crab
-      crabGraphics = drawCrab(xCrab,yCrab,thetaCrab,sizeCrab);
-    endif
-
-
-
-    for k=1:2
-       % Custom logic for getting movement/rotation of captain
-      [rotationFactor(k), rotationDirection(k), moveForward(k)] = calcMovement(k, cmd, rotationFactor(k), rotationDirection(k));
-
-      %remove current drawn captain
-      for(i = 1:length(captGraphics(:,k)))
-        delete(captGraphics(i,k));
-      endfor
-
-      %Getting new captain position & heading
-      [xCapt(k), yCapt(k), thetaCapt(k)] = moveCapt(xCapt(k), yCapt(k), thetaCapt(k), moveForward(k), rotationDirection(k), rotationFactor(k));
-
-      %place new captain
-      captGraphics(:,k) = drawCapt(xCapt(k), yCapt(k), thetaCapt(k), sizeCapt);
+        %draw new crab(s)
+        crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
+      endif
     endfor
+
+
+    % Custom logic for getting movement/rotation of captain
+    [rotationFactor, rotationDirection, moveForward] = calcMovement(cmd, rotationFactor, rotationDirection);
+
+    %remove current drawn captain
+    for(i = 1:length(captGraphics))
+      delete(captGraphics(i));
+    endfor
+
+    %Getting new captain position & heading
+    [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor);
+
+    %place new captain
+    captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
 
 
     pause(0.005);
