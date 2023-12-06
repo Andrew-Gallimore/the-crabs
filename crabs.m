@@ -2,10 +2,12 @@ function crabs ()
   % Crabs is a kids computer game where a fisherman, called the captain,
   % hunts for a very clever and powerful crab.
 
-  % Draw the game map and initialize map dimensions.
-  [mapHeight , mapWidth] = drawMap( "BGImage.png" );
+  % Initialize game logic
+  gameRunning = 1;
+  mapWidth = 2048;
+  mapHeight = 1317;
 
-  % Initialize captain location, heading and size
+  % Initialize captain
   xCapt = 1500;
   yCapt = 900;
   thetaCapt = -pi/2;
@@ -33,74 +35,96 @@ function crabs ()
   stateCrab = ones(1, numOfCrabs);
   sizeCrab = 25;
 
-
-  % Draw the captain and initialize graphics handles
-  captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
-  for c=1:numOfCrabs
-    crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
-  endfor
-  pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
-
-  commandwindow();
-
-  while(1)
-    cmd = kbhit(1);
-    if(cmd == "Q")
-      break
-    endif
-
-    % This draws the penguin as it moves across the screen
-    % erases penguin
-    for p=1:length(pengGraphics)
-      delete(pengGraphics(p));
-    endfor
-
-    % move Penguin
-    [xPeng,yPeng,thetaPeng] = movePeng(xPeng, yPeng, thetaPeng, sizePeng, mapHeight,mapWidth);
-
-    % draws Penguin
-    pengGraphics = drawPeng(xPeng,yPeng,thetaPeng,sizePeng);
+  % =================== Showing loading-screen =================== %
+  showLoading();
 
 
 
-    for c=1:numOfCrabs
-      if(stateCrab(c) == 1 || stateCrab(c) == 2)
-        %erase old crab
-        for i=1:length(crabGraphics)
-          delete(crabGraphics(i, c));
-        endfor
-
-        if(stateCrab(c) == 1)
-          % Move crab(s) left and right
-          limitedHight = mapHeight*(1 - amountOfScreen)
-          [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), limitedHight, mapHeight, mapWidth, sizeCrab);
-        elseif(stateCrab(c) == 2)
-          % Put crab at tip of net
-          % TODO: put crab at tip of net
-        endif
-
-        %draw new crab(s)
-        crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
-      endif
-    endfor
+  while(gameRunning)
+    % =================== Showing menu =================== %
+    showMenu();
 
 
-    % Custom logic for getting movement/rotation of captain
-    [rotationFactor, rotationDirection, moveForward] = calcMovement(cmd, rotationFactor, rotationDirection);
+    % =================== Main Game START =================== %
 
-    %remove current drawn captain
-    for(i = 1:length(captGraphics))
-      delete(captGraphics(i));
-    endfor
+    % Draw the game map and initialize map dimensions.
+    drawBackground( "BGImage.png" );
 
-    %Getting new captain position & heading
-    [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor);
-
-    %place new captain
+    % Draw the captain and initialize graphics handles
     captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
+    for c=1:numOfCrabs
+      crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
+    endfor
+    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
+
+    % Focusing commandwindow
+    commandwindow();
 
 
-    pause(0.005);
+    % =================== Main Game LOOP =================== %
+    while(1)
+
+      cmd = kbhit(1);
+      if(cmd == "Q")
+        break
+      endif
+
+      % This draws the penguin as it moves across the screen
+      % erases penguin
+      for p=1:length(pengGraphics)
+        delete(pengGraphics(p));
+      endfor
+
+      % move Penguin
+      [xPeng,yPeng,thetaPeng] = movePeng(xPeng, yPeng, thetaPeng, sizePeng, mapHeight,mapWidth);
+
+      % draws Penguin
+      pengGraphics = drawPeng(xPeng,yPeng,thetaPeng,sizePeng);
+
+
+
+      for c=1:numOfCrabs
+        if(stateCrab(c) == 1 || stateCrab(c) == 2)
+          %erase old crab
+          for i=1:length(crabGraphics)
+            delete(crabGraphics(i, c));
+          endfor
+
+          if(stateCrab(c) == 1)
+            % Move crab(s) left and right
+            limitedHight = mapHeight*(1 - amountOfScreen);
+            [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), limitedHight, mapHeight, mapWidth, sizeCrab);
+          elseif(stateCrab(c) == 2)
+            % Put crab at tip of net
+            % TODO: put crab at tip of net
+          endif
+
+          %draw new crab(s)
+          crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
+        endif
+      endfor
+
+
+      % Custom logic for getting movement/rotation of captain
+      [rotationFactor, rotationDirection, moveForward] = calcMovement(cmd, rotationFactor, rotationDirection);
+
+      %remove current drawn captain
+      for(i = 1:length(captGraphics))
+        delete(captGraphics(i));
+      endfor
+
+      %Getting new captain position & heading
+      [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor);
+
+      %place new captain
+      captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
+
+
+      pause(0.005);
+
+    endwhile
+
+    % =================== Showing endscreen =================== %
 
   endwhile
 endfunction

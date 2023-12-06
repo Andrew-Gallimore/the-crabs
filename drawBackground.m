@@ -1,4 +1,4 @@
-function [height,width] = drawMap(imageName)
+function drawBackground(imageName)
 %This function draws the background map for the game using the image named imageName
 % It returns the map dimensions base in the supplied image.
 
