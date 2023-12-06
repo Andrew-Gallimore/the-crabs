@@ -30,6 +30,13 @@ function captainGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
   pt12=capt( : , 12);
   pt13=capt( : , 13);
   pt14=capt( : , 14);
+  pt15=capt( : , 15);
+  pt16=capt( : , 16);
+  pt17=capt( : , 17);
+  pt18=capt( : , 18);
+  pt19=capt( : , 19); % middle of net
+  pt20=capt( : , 20);
+  pt21=capt( : , 21);
 
   % Draw the captain and set the return vector of graphics handles.
   captainGraphics(1) = drawLine(pt1 , pt2 , "k"); %l sholder hip
@@ -46,16 +53,25 @@ function captainGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
   captainGraphics(12) = drawLine(pt13 , pt14 , "k"); %r head
   captainGraphics(13) = drawLine(pt12 , pt14 , "k"); %head top
 
-  if(columns >= 16)
-    pt15=capt( : , 15);
-    pt16=capt( : , 16);
-    captainGraphics(14) = drawLine(pt15 , pt16 , "k"); %spear
-  endif
+  captainGraphics(14) = drawLine(pt15, pt16, "k");
+  captainGraphics(15) = drawLine(pt16, pt17, "k");
+  captainGraphics(16) = drawLine(pt17, pt18, "k");
+  captainGraphics(17) = drawLine(pt21, pt20, "k");
+  captainGraphics(18) = drawLine(pt20, pt15, "k");
+  captainGraphics(19) = drawLine(pt20, pt18, "k");
 
-  if(columns == 18)
-    pt17=capt( : , 17);
-    pt18=capt( : , 18);
-    captainGraphics(15) = drawLine(pt17 , pt18 , "k"); %spear 2
-  endif
+
+
+%  if(columns >= 16)
+%    pt15=capt( : , 15);
+%    pt16=capt( : , 16);
+%    captainGraphics(14) = drawLine(pt15 , pt16 , "k"); %spear
+%  endif
+
+%  if(columns == 18)
+%    pt17=capt( : , 17);
+%    pt18=capt( : , 18);
+%    captainGraphics(15) = drawLine(pt17 , pt18 , "k"); %spear 2
+%  endif
 
 endfunction
