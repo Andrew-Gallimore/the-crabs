@@ -23,6 +23,13 @@ function crabs ()
   yPeng = 1000;
   thetaPeng = pi/2;
   sizePeng = 25;
+  statePeng = 1;
+
+  % initialize boat
+  xBoat = 1024;
+  yBoat = 150;
+  sizeBoat = 150;
+
 
   % Initialize crab(s)
   numOfCrabs = 2;
@@ -69,16 +76,18 @@ function crabs ()
         break
       endif
 
-      % This draws the penguin as it moves across the screen
-      % erases penguin
-      for p=1:length(pengGraphics)
-        delete(pengGraphics(p));
-      endfor
+      boatGraphics = drawBoat (xBoat, yBoat, sizeBoat);
 
-      % move Penguin
+     % This draws the penguin as it moves across the screen
+     % erases penguin
+        for p=1:length(pengGraphics)
+          delete(pengGraphics(p));
+        endfor
+
+     % move Penguin
       [xPeng,yPeng,thetaPeng] = movePeng(xPeng, yPeng, thetaPeng, sizePeng, mapHeight,mapWidth);
 
-      % draws Penguin
+     % draws Penguin
       pengGraphics = drawPeng(xPeng,yPeng,thetaPeng,sizePeng);
 
 
