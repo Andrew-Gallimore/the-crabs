@@ -1,10 +1,10 @@
 ## Author: HP <HP@ANDREWS-LAPTOP>
 ## Created: 2023-10-02
 
-function [xCapt, yCapt, thetaCapt] = moveCapt (x, y, theta, moveForward, rotationDirection, rotationFactor, mapWidth, mapHeight)
+function [xCapt, yCapt, thetaCapt] = moveCapt (x, y, theta, moveForward, rotationDirection, rotationFactor, mapWidth, mapHeight, captSpeed)
   % Variables for movement amounts
   dTheta = pi/6;
-  dStep = 50;
+  dStep = captSpeed;
 
   % Setting default values, for if no movement is commanded
   xCapt = x;

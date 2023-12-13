@@ -16,6 +16,7 @@ function crabs ()
   thetaCapt = -pi/2;
   sizeCapt = 50;
   captHasCrab = 0;
+  captSpeed = 100
 
   rotationFactor = [1; 1];
   rotationDirection = [0; 0];
@@ -127,6 +128,17 @@ function crabs ()
       pengGraphics = drawPeng(xPeng,yPeng,thetaPeng,sizePeng);
 
 
+      % penguin speed
+
+      if(distance (xPeng, yPeng, xCapt, yCapt) < 3*sizeCapt)
+          captSpeed = captSpeed + 100
+      else
+          captSpeed = 100
+      endif
+
+
+
+
 
       % If captain is at top
       if(netY < 200 && captHasCrab == 1)
@@ -156,7 +168,7 @@ function crabs ()
       endfor
 
       % Getting new captain position & heading
-      [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor, mapWidth, mapHeight);
+      [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor, mapWidth, mapHeight, captSpeed);
 
       % Place new captain
       [captGraphics, netX, netY] = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);
