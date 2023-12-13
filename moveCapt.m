@@ -11,6 +11,11 @@ function [xCapt, yCapt, thetaCapt] = moveCapt (x, y, theta, moveForward, rotatio
   yCapt = y;
   thetaCapt = theta;
 
+  % captain gets speed boost when collides with penguin
+     if (distance(xPeng, yPeng, xCapt, yCapt) < 3*sizeCapt)
+        dStep = dStep + 50;
+     endif
+
   if(moveForward == 1)
     %move captain forward
     xTemp = x + cos(theta)*dStep;
