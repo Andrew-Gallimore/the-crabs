@@ -10,7 +10,7 @@ function showLoading()
 
   % Loop that runs while loading screen is onscreen
   while(looping)
-    elapsed_time = etime(clock(), t0)
+    elapsed_time = etime(clock(), t0);
     if(elapsed_time >= 5)
       looping = 0;
     endif

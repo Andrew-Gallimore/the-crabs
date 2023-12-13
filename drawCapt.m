@@ -2,7 +2,7 @@
 ## Created: 2023-09-01
 
 % Gets, transforms, plots, and Returns the full captain
-function captainGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
+function [captainGraphics, pt19x, pt19y] = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
   capt = getCapt(sizeCapt, true, false, 0);
 
   % Get & apply the rotation matrix for Captain
@@ -34,7 +34,8 @@ function captainGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt)
   pt16=capt( : , 16);
   pt17=capt( : , 17);
   pt18=capt( : , 18);
-  pt19=capt( : , 19); % middle of net
+  pt19x=capt( 1 , 19); % middle of net
+  pt19y=capt( 2 , 19); % middle of net
   pt20=capt( : , 20);
   pt21=capt( : , 21);
 
