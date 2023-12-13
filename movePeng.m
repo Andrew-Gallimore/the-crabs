@@ -3,8 +3,7 @@
 ## Created: 2023-10-27
 
 function [xPeng, yPeng, thetaPeng] = movePeng (x, y, theta, size, height, width)
-
-  moveStep = 150;
+  moveStep = 100;
   xPeng = x + moveStep;
   yPeng = y;
   thetaPeng = theta;
@@ -12,8 +11,8 @@ function [xPeng, yPeng, thetaPeng] = movePeng (x, y, theta, size, height, width)
 
   % TO BE EDITED TO MAKE THE PENGUIN APPEAR AFTER A CERTAIN AMOUNT OF TIME
 
-  if ( (xPeng > width - 5 * size) )
-    xPeng = size * 5;
+  if ( (xPeng > width - 10 * size))
+    xPeng = size;
     yPeng = rand * height;
   endif
 
