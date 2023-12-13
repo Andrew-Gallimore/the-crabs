@@ -72,8 +72,9 @@ function crabs ()
     for c=1:numOfCrabs
       crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
     endfor
-    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng)
+    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
 
+    % Drawing boat
     boatGraphics = drawBoat (xBoat, yBoat, sizeBoat);
 
     % Focusing commandwindow
@@ -82,6 +83,13 @@ function crabs ()
     % Resetting number of crabs
     numCrabsCaught = 0;
     success = 0;
+
+    t0 = clock();
+    timeLimit = 20 + numOfCrabs*40;
+
+    % Drawing timer
+    elapsed_time = timeLimit - etime(clock(), t0);
+    counter = text(100, 140, num2str(floor(elapsed_time)), "fontsize", 40);
 
     % =================== Main Game LOOP =================== %
     while(1)
@@ -96,15 +104,21 @@ function crabs ()
         break;
       endif
 
+      if(floor(elapsed_time) <= 0)
+        success = 0;
+        break;
+      endif
+
+
       % Focusing commandwindow
       commandwindow();
 
 
      % This draws the penguin as it moves across the screen
      % erases penguin
-        for p=1:length(pengGraphics)
-          delete(pengGraphics(p));
-        endfor
+       for p=1:length(pengGraphics)
+         delete(pengGraphics(p));
+       endfor
 
      % move Penguin
       [xPeng,yPeng,thetaPeng] = movePeng(xPeng, yPeng, thetaPeng, sizePeng, mapHeight,mapWidth);
@@ -180,6 +194,17 @@ function crabs ()
           crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
         endif
       endfor
+
+      % Removing old timer text
+      delete(counter);
+
+      % Drawing timer
+      elapsed_time = timeLimit - etime(clock(), t0);
+      if(floor(elapsed_time) <= 10)
+        counter = text(100, 140, num2str(floor(elapsed_time)), "fontsize", 40, "color", "r");
+      else
+        counter = text(100, 140, num2str(floor(elapsed_time)), "fontsize", 40);
+      endif
 
       pause(0.005);
 
