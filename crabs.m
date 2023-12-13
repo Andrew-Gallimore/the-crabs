@@ -72,7 +72,9 @@ function crabs ()
     for c=1:numOfCrabs
       crabGraphics(:, c) = drawCrab(xCrab(c), yCrab(c), thetaCrab(c), sizeCrab);
     endfor
-    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng);
+    pengGraphics = drawPeng(xPeng, yPeng, thetaPeng, sizePeng)
+
+    boatGraphics = drawBoat (xBoat, yBoat, sizeBoat);
 
     % Focusing commandwindow
     commandwindow();
@@ -89,9 +91,6 @@ function crabs ()
         break
       endif
 
-<<<<<<< Updated upstream
-      boatGraphics = drawBoat (xBoat, yBoat, sizeBoat);
-=======
       if(numCrabsCaught >= numOfCrabs)
         success = 1;
         break;
@@ -100,12 +99,6 @@ function crabs ()
       % Focusing commandwindow
       commandwindow();
 
-      % This draws the penguin as it moves across the screen
-      % erases penguin
-      for p=1:length(pengGraphics)
-        delete(pengGraphics(p));
-      endfor
->>>>>>> Stashed changes
 
      % This draws the penguin as it moves across the screen
      % erases penguin
