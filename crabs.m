@@ -12,7 +12,8 @@ function crabs ()
   yCapt = 900;
   thetaCapt = -pi/2;
   sizeCapt = 50;
-  captSpeed = 50;
+  captSpeed = 100;
+
 
   rotationFactor = [1; 1];
   rotationDirection = [0; 0];
@@ -91,6 +92,11 @@ function crabs ()
       pengGraphics = drawPeng(xPeng,yPeng,thetaPeng,sizePeng);
 
 
+     % captain gets speed boost when collides with penguin
+     if (distance(xPeng, yPeng, xCapt, yCapt) < 3*sizeCapt)
+        captSpeed = captSpeed + 50;
+     endif
+
       for c=1:numOfCrabs
         if(stateCrab(c) == 1 || stateCrab(c) == 2)
           %erase old crab
@@ -101,7 +107,7 @@ function crabs ()
           if(stateCrab(c) == 1)
             % Move crab(s) left and right
             limitedHight = mapHeight*(1 - amountOfScreen);
-            [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), limitedHight, mapHeight, mapWidth);
+            [xCrab(c),yCrab(c),thetaCrab(c), LRCrab(c)] = moveCrab(LRCrab(c),xCrab(c),yCrab(c),thetaCrab(c), limitedHight, mapHeight, mapWidth, sizeCrab);
           elseif(stateCrab(c) == 2)
             % Put crab at tip of net
             % TODO: put crab at tip of net
@@ -122,7 +128,7 @@ function crabs ()
       endfor
 
       %Getting new captain position & heading
-      [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor, captSpeed);
+      [xCapt, yCapt, thetaCapt] = moveCapt(xCapt, yCapt, thetaCapt, moveForward, rotationDirection, rotationFactor, mapWidth, mapHeight);
 
       %place new captain
       captGraphics = drawCapt(xCapt, yCapt, thetaCapt, sizeCapt);

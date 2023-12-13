@@ -60,10 +60,12 @@ function capt = getCapt (captSize, leftSpear, rightSpear, jab)
   netPoint =[ 3*captSize; -2*captSize; 1]; %left spear point
   netEnd =[ -captSize; -2*captSize; 1]; %left spear end
 
+  %center of captain
+  captCenter = [ 0; 0; 1];
 
   %Combining points that form captain as a matrix_type
   capt = [lSholder, lHip, lFoot, lElbo, lHand, rSholder, rHip, rFoot, rElbo, rHand, lNeck, lHead, rNeck, rHead, ...
-          lBottomNet, lTopNet, rTopNet, rBottomNet, netCenter, netPoint, netEnd];
+          lBottomNet, lTopNet, rTopNet, rBottomNet, netCenter, netPoint, netEnd, captCenter];
 
 
 
